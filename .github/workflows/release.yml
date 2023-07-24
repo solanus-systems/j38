@@ -1,0 +1,15 @@
+name: release
+on: [release]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    name: production deploy
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm install
+      - uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env production
