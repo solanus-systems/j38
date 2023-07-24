@@ -1,51 +1,92 @@
-name = "j38"
+name = "j38-dev"
 main = "src/worker.ts"
 compatibility_date = "2023-07-17"
+account_id = "f7b34b06da8b21a69adc4251e3e6722d"
+workers_dev = false
+route = { pattern = "mqtt-relay-dev.solanus.systems", zone_id="5f5587b56395030e8ceb506da91d954b", custom_domain = true }
 
-# Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
-# Note: Use secrets to store sensitive data.
-# Docs: https://developers.cloudflare.com/workers/platform/environment-variables
-# [vars]
-# MY_VARIABLE = "production_value"
+[vars]
+ENVIRONMENT = "dev"
+BROKER_PUBLIC_KEYS = '''{
+  "keys": [
+    {
+      "use": "sig",
+      "kty": "OKP",
+      "kid": "fT7ingBAyBkbdWlEJQfAzLuIupXJmYswTYXsZiv7OUM",
+      "crv": "Ed25519",
+      "alg": "EdDSA",
+      "x": "3OznjIvK6uLxjaTgIsrc8s7qjpLaarNWh8gQFI3WVHc"
+    },
+    {
+      "use": "sig",
+      "kty": "OKP",
+      "kid": "CRLGfgAeyG7bzareFVq3Rng00vtFq3q3gfXeNiPtmZo",
+      "crv": "Ed25519",
+      "alg": "EdDSA",
+      "x": "6eyDt9mZY6PxIe5Vg1NrryXwyYKZQUhqH6v5ZGVUzFg"
+    }
+  ]
+}'''
 
-# Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
-# Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+[[env.dev.analytics_engine_datasets]]
+binding = "mqtt-dev"
 
-# Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
-# Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[env.staging]
+name = "j38-staging"
+route = { pattern = "mqtt-relay-staging.solanus.systems", zone_id="5f5587b56395030e8ceb506da91d954b", custom_domain = true }
 
-# Bind a Queue producer. Use this binding to schedule an arbitrary task that may be processed later by a Queue consumer.
-# Docs: https://developers.cloudflare.com/queues/get-started
-# [[queues.producers]]
-# binding = "MY_QUEUE"
-# queue = "my-queue"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+BROKER_PUBLIC_KEYS = '''{
+  "keys": [
+    {
+      "use": "sig",
+      "kty": "OKP",
+      "kid": "PyiBgfvTwBM4tgxvI6ETBzOwlhVTgBADsXKlb5U9Gys",
+      "crv": "Ed25519",
+      "alg": "EdDSA",
+      "x": "i2pacM6qot7LTy_6K_yyUjFSto2Do3u1OZ2FYOXKLYA"
+    },
+    {
+      "use": "sig",
+      "kty": "OKP",
+      "kid": "8-xBvOqeEnR3W1aBrox_ZakexY5ZUWqmavR72NQjwYo",
+      "crv": "Ed25519",
+      "alg": "EdDSA",
+      "x": "KP1jnUNCQk0whaE94vPiNW4wtqyAbvPoZ6H3VsqHmA8"
+    }
+  ]
+}'''
 
-# Bind a Queue consumer. Queue Consumers can retrieve tasks scheduled by Producers to act on them.
-# Docs: https://developers.cloudflare.com/queues/get-started
-# [[queues.consumers]]
-# queue = "my-queue"
+[[env.staging.analytics_engine_datasets]]
+binding = "mqtt-staging"
 
-# Bind another Worker service. Use this binding to call another Worker without network overhead.
-# Docs: https://developers.cloudflare.com/workers/platform/services
-# [[services]]
-# binding = "MY_SERVICE"
-# service = "/api/*"
+[env.production]
+name = "j38"
+route = { pattern = "mqtt-relay.solanus.systems", zone_id="5f5587b56395030e8ceb506da91d954b", custom_domain = true }
 
-# Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
-# Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
-# Docs: https://developers.cloudflare.com/workers/runtime-apis/durable-objects
-# [[durable_objects.bindings]]
-# name = "MY_DURABLE_OBJECT"
-# class_name = "MyDurableObject"
+[env.production.vars]
+ENVIRONMENT = "production"
+BROKER_PUBLIC_KEYS = '''{
+  "keys": [
+    {
+      "use": "sig",
+      "kty": "OKP",
+      "kid": "cBuBylHNUevIZnbb54oYO-jTgwPmJIp_j5DwN6kpwk0",
+      "crv": "Ed25519",
+      "alg": "EdDSA",
+      "x": "I4JtpfxDMjKZHpjRUhXfCT0gxoGnBG85ZPYceWh4AnY"
+    },
+    {
+      "use": "sig",
+      "kty": "OKP",
+      "kid": "0AtJzorAQZ8AkiDY9bhf_-dWtSUvOcbkyAXRgNkBcn8",
+      "crv": "Ed25519",
+      "alg": "EdDSA",
+      "x": "YwoPPv_tY_WVWjOcrSFkFIhdqp5SlFo3cmpllmH2zVg"
+    }
+  ]
+}'''
 
-# Durable Object migrations.
-# Docs: https://developers.cloudflare.com/workers/learning/using-durable-objects#configure-durable-object-classes-with-migrations
-# [[migrations]]
-# tag = "v1"
-# new_classes = ["MyDurableObject"]
+[[env.production.analytics_engine_datasets]]
+binding = "mqtt"
