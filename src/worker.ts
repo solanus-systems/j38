@@ -14,16 +14,11 @@ async function relay(messages: Array<PubSubMessage>, env: any, ctx: ExecutionCon
 	// We take only the first MAX_ANALYTICS_CALLS messages to avoid exceeding the
 	// maximum number of calls to Analytics Engine in a single request.
 	for (let msg of messages.slice(0, MAX_ANALYTICS_CALLS)) {
-		// Destructure the topic from the message
-		// The first segment is the prefix and the final segment is the device ID
+		// Destructure the topic from the message; the final segment is the device ID
 		// All other segments as used as tags for filtering the data
 		// An example: "/dt/pepper_bridge/barrel_room/west/hT6Zd55hQo"
-		const [prefix, ...topic_segments] = msg.topic.split('/')
+		const topic_segments = msg.topic.split('/')
 		const device_id = topic_segments.pop()
-
-		// Ignore commands and other non-data messages
-		// Telemetry topics always begin with /dt, following the AWS IoT convention
-		if (prefix != 'dt') continue
 
 		// If the message was an object, use the values from it as the stored measurements
 		// Otherwise use the message payload itself as the (single) stored measurement
