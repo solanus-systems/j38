@@ -1,19 +1,19 @@
 {
-  "name": "j38",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "deploy": "wrangler deploy",
-    "start": "wrangler dev",
-    "test": "tsc --noEmit && prettier --check ."
-  },
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230717.1",
-    "prettier": "^3.0.0",
-    "typescript": "^5.0.4",
-    "wrangler": "^3.0.0"
-  },
-  "dependencies": {
-    "@cloudflare/pubsub": "^0.0.1"
-  }
+	"name": "j38",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"start": "wrangler dev",
+		"test": "tsc --noEmit && prettier --check ."
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20230717.1",
+		"prettier": "^3.0.0",
+		"typescript": "^5.0.4",
+		"wrangler": "^3.0.0"
+	},
+	"dependencies": {
+		"@cloudflare/pubsub": "^0.0.1"
+	}
 }
