@@ -1,12 +1,19 @@
-name: Dev deploy
-
-on:
-  pull_request:
-
+name: ci
+on: [pull_request]
 jobs:
-  staging-deploy:
+  test:
+    name: test
     runs-on: ubuntu-latest
-    name: Deploy
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm install
+      - run: npm test
+  dev-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: dev
+    name: dev deploy
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
